@@ -6,7 +6,7 @@ import sys
 import time
 from datetime import timedelta
 
-from meta_perception_models.distributed import get_global_rank, get_is_slurm_job
+from meta_perception_models.core.distributed import get_global_rank, get_is_slurm_job
 
 
 class LogFormatter(logging.Formatter):

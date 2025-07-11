@@ -18,18 +18,18 @@ from torch.distributed.tensor.parallel import (
 from torch.nn.attention.flex_attention import BlockMask, create_block_mask
 from xformers.ops import AttentionBias, fmha
 
-from meta_perception_models.transformer import (
+from meta_perception_models.core.transformer import (
     BaseTransformer,
     BaseTransformerArgs,
     RMSNorm,
     TiedLinear,
     cross_entropy,
 )
-from meta_perception_models.utils import InitArgs
-from meta_perception_models.vision_encoder.pe import (
+from meta_perception_models.core.utils import InitArgs
+from meta_perception_models.core.vision_encoder.pe import (
     VisionTransformer as PE_VisionTransformer,
 )
-from meta_perception_models.vision_projector.mlp import MLPProjector
+from meta_perception_models.core.vision_projector.mlp import MLPProjector
 
 logger = logging.getLogger(__name__)
 

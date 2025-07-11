@@ -6,8 +6,8 @@ import torch
 from omegaconf import OmegaConf
 
 from apps.plm.transformer import LMTransformer, LMTransformerArgs
-from meta_perception_models.args import dataclass_from_dict
-from meta_perception_models.checkpoint import load_from_checkpoint
+from meta_perception_models.core.args import dataclass_from_dict
+from meta_perception_models.core.checkpoint import load_from_checkpoint
 
 
 def build_model(

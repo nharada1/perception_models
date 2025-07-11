@@ -18,8 +18,8 @@ from torch.nn.init import constant_, xavier_normal_, xavier_uniform_
 from torch.nn.parameter import Parameter
 from torch.utils.checkpoint import checkpoint
 
-from meta_perception_models.vision_encoder.rope import Rope2D
-from meta_perception_models.vision_encoder.config import (
+from meta_perception_models.core.vision_encoder.rope import Rope2D
+from meta_perception_models.core.vision_encoder.config import (
     PEConfig,
     PETextConfig,
     PE_VISION_CONFIG,

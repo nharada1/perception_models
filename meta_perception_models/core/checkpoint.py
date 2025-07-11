@@ -23,7 +23,7 @@ from torch.distributed.checkpoint.state_dict import (
     set_state_dict,
 )
 
-from meta_perception_models.distributed import get_is_master
+from meta_perception_models.core.distributed import get_is_master
 
 logger = logging.getLogger("CHECKPOINT")
 

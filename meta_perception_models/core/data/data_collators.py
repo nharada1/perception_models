@@ -7,7 +7,7 @@ from typing import Any, Dict, List, Optional
 
 import torch
 
-from meta_perception_models.distributed import get_is_master
+from meta_perception_models.core.distributed import get_is_master
 
 logger = getLogger()
 

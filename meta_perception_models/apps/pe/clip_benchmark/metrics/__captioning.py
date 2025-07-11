@@ -11,7 +11,7 @@ from pycocoevalcap.tokenizer.ptbtokenizer import PTBTokenizer
 from tqdm.auto import tqdm
 
 # from open_clip.tokenizer import _tokenizer
-from meta_perception_models.vision_encoder.tokenizer import _tokenizer, tokenize
+from meta_perception_models.core.vision_encoder.tokenizer import _tokenizer, tokenize
 
 """
 Code adapted from https://github.com/salaniz/pycocoevalcap/blob/master/eval.py

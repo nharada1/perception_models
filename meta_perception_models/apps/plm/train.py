@@ -30,15 +30,19 @@ from apps.plm.transformer import (
     get_num_flop_per_token,
     tp_parallelize,
 )
-from meta_perception_models.args import dataclass_from_dict, dump_config, flatten_dict
-from meta_perception_models.checkpoint import (
+from meta_perception_models.core.args import (
+    dataclass_from_dict,
+    dump_config,
+    flatten_dict,
+)
+from meta_perception_models.core.checkpoint import (
     CheckpointArgs,
     CheckpointManager,
     load_consolidated_checkpoint,
     load_from_checkpoint,
 )
-from meta_perception_models.data.dataloader import DataloadArgs, get_dataloader
-from meta_perception_models.distributed import (
+from meta_perception_models.core.data.dataloader import DataloadArgs, get_dataloader
+from meta_perception_models.core.distributed import (
     DistributedArgs,
     EnvironmentArgs,
     check_model_value_range,
@@ -53,17 +57,17 @@ from meta_perception_models.distributed import (
     setup_env,
     setup_torch_distributed,
 )
-from meta_perception_models.logger import init_logger
-from meta_perception_models.metrics import (
+from meta_perception_models.core.logger import init_logger
+from meta_perception_models.core.metrics import (
     GPUMemoryMonitor,
     LoggingArgs,
     MetricLogger,
     get_num_params,
     log_model_params,
 )
-from meta_perception_models.optim import OptimArgs, build_optimizer
-from meta_perception_models.probe import AutoProbeD
-from meta_perception_models.profiling import ProfilerArgs, maybe_run_profiler
+from meta_perception_models.core.optim import OptimArgs, build_optimizer
+from meta_perception_models.core.probe import AutoProbeD
+from meta_perception_models.core.profiling import ProfilerArgs, maybe_run_profiler
 
 logging.getLogger("PIL").setLevel(
     logging.WARNING

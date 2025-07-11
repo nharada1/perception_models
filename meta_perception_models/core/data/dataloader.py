@@ -5,12 +5,15 @@ from dataclasses import dataclass
 from functools import partial
 from typing import Any, Dict, Optional
 
-from meta_perception_models.data.data_collators import MllmPaddingCollator
-from meta_perception_models.data.data_mixer import DatasetMixer, PersistentDataLoader
-from meta_perception_models.data.preprocessor import VisionPreprocessor
-from meta_perception_models.transforms.image_transform import get_image_transform
-from meta_perception_models.transforms.region_transform import get_region_transform
-from meta_perception_models.transforms.video_transform import get_video_transform
+from meta_perception_models.core.data.data_collators import MllmPaddingCollator
+from meta_perception_models.core.data.data_mixer import (
+    DatasetMixer,
+    PersistentDataLoader,
+)
+from meta_perception_models.core.data.preprocessor import VisionPreprocessor
+from meta_perception_models.core.transforms.image_transform import get_image_transform
+from meta_perception_models.core.transforms.region_transform import get_region_transform
+from meta_perception_models.core.transforms.video_transform import get_video_transform
 
 logger = logging.getLogger(__name__)
 

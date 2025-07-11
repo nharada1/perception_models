@@ -11,8 +11,8 @@ import tiktoken
 import torch
 from tiktoken.load import load_tiktoken_bpe
 
-from meta_perception_models.data.conversation import REGISTERED_CONVS
-from meta_perception_models.tokenizer import TikTokenTokenizer, Tokenizer
+from meta_perception_models.core.data.conversation import REGISTERED_CONVS
+from meta_perception_models.core.tokenizer import TikTokenTokenizer, Tokenizer
 
 logger = logging.getLogger(__name__)
 

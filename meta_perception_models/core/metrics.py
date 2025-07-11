@@ -14,7 +14,7 @@ import torch.distributed as dist
 import torch.nn as nn
 import wandb
 
-from meta_perception_models.distributed import get_is_master
+from meta_perception_models.core.distributed import get_is_master
 
 Scalar = Union[int, float]
 
