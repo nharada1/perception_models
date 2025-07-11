@@ -18,4 +18,7 @@ setup(
     license="FAIR Noncommercial Research License",
     python_requires=">=3.11",
     include_package_data=True,
+    package_data={
+        "perception_models": ["core/vision_encoder/*.gz"],
+    },
 )
