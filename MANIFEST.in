@@ -1,1 +1,1 @@
-recursive-include core/perception_models/*.gz
+recursive-include meta_perception_models/core/video_encoder/*.gz
