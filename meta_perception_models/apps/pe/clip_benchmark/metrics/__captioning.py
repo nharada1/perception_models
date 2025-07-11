@@ -6,11 +6,12 @@ from pycocoevalcap.meteor.meteor import Meteor
 from pycocoevalcap.rouge.rouge import Rouge
 from pycocoevalcap.spice.spice import Spice
 from pycocoevalcap.tokenizer.ptbtokenizer import PTBTokenizer
+
 # from open_clip import tokenize
 from tqdm.auto import tqdm
 
 # from open_clip.tokenizer import _tokenizer
-from core.vision_encoder.tokenizer import _tokenizer, tokenize
+from meta_perception_models.vision_encoder.tokenizer import _tokenizer, tokenize
 
 """
 Code adapted from https://github.com/salaniz/pycocoevalcap/blob/master/eval.py

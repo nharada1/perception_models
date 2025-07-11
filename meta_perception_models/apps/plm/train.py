@@ -22,27 +22,48 @@ from torch.optim import lr_scheduler
 
 from apps.plm.dataset_conf import dataset_config as DATASET_CONFIGS
 from apps.plm.tokenizer import build_tokenizer
-from apps.plm.transformer import (LMTransformer, LMTransformerArgs,
-                                  build_fsdp_grouping_plan,
-                                  get_no_recompute_ops, get_num_flop_per_token,
-                                  tp_parallelize)
-from core.args import dataclass_from_dict, dump_config, flatten_dict
-from core.checkpoint import (CheckpointArgs, CheckpointManager,
-                             load_consolidated_checkpoint,
-                             load_from_checkpoint)
-from core.data.dataloader import DataloadArgs, get_dataloader
-from core.distributed import (DistributedArgs, EnvironmentArgs,
-                              check_model_value_range, clean_env,
-                              dist_mean_dict, get_device_mesh, get_is_master,
-                              get_world_size, init_signal_handler,
-                              parallelize_model, requeue_slurm_job, setup_env,
-                              setup_torch_distributed)
-from core.logger import init_logger
-from core.metrics import (GPUMemoryMonitor, LoggingArgs, MetricLogger,
-                          get_num_params, log_model_params)
-from core.optim import OptimArgs, build_optimizer
-from core.probe import AutoProbeD
-from core.profiling import ProfilerArgs, maybe_run_profiler
+from apps.plm.transformer import (
+    LMTransformer,
+    LMTransformerArgs,
+    build_fsdp_grouping_plan,
+    get_no_recompute_ops,
+    get_num_flop_per_token,
+    tp_parallelize,
+)
+from meta_perception_models.args import dataclass_from_dict, dump_config, flatten_dict
+from meta_perception_models.checkpoint import (
+    CheckpointArgs,
+    CheckpointManager,
+    load_consolidated_checkpoint,
+    load_from_checkpoint,
+)
+from meta_perception_models.data.dataloader import DataloadArgs, get_dataloader
+from meta_perception_models.distributed import (
+    DistributedArgs,
+    EnvironmentArgs,
+    check_model_value_range,
+    clean_env,
+    dist_mean_dict,
+    get_device_mesh,
+    get_is_master,
+    get_world_size,
+    init_signal_handler,
+    parallelize_model,
+    requeue_slurm_job,
+    setup_env,
+    setup_torch_distributed,
+)
+from meta_perception_models.logger import init_logger
+from meta_perception_models.metrics import (
+    GPUMemoryMonitor,
+    LoggingArgs,
+    MetricLogger,
+    get_num_params,
+    log_model_params,
+)
+from meta_perception_models.optim import OptimArgs, build_optimizer
+from meta_perception_models.probe import AutoProbeD
+from meta_perception_models.profiling import ProfilerArgs, maybe_run_profiler
 
 logging.getLogger("PIL").setLevel(
     logging.WARNING
@@ -108,9 +129,9 @@ def validate_train_args(args: TrainArgs, output_size: int):
     if args.model.vocab_size < 0:
         logger.info(f"Setting model output size to {args.model.vocab_size}")
         args.model.vocab_size = output_size
-    assert (
-        args.model.vocab_size == output_size
-    ), "Vocab size should be the same as output size"
+    assert args.model.vocab_size == output_size, (
+        "Vocab size should be the same as output size"
+    )
 
     assert args.dump_dir, "Dump dir not set"
 
@@ -157,22 +178,22 @@ def validate_train_args(args: TrainArgs, output_size: int):
             "Tensor parallelism has not been tested for a while, use at your own risk"
         )
 
-    assert (
-        args.probe_freq != args.profiling.mem_steps
-    ), "Don't profile during probe step"
-    assert (
-        args.probe_freq != args.profiling.profile_steps
-    ), "Don't profile during probe step"
+    assert args.probe_freq != args.profiling.mem_steps, (
+        "Don't profile during probe step"
+    )
+    assert args.probe_freq != args.profiling.profile_steps, (
+        "Don't profile during probe step"
+    )
     if args.logging.wandb is not None:
         args.logging.wandb.name = args.name
 
     if args.probe_freq is not None:
-        assert (
-            args.distributed.tp_size == 1
-        ), "Probing not supported with tensor parallelism"
-        assert (
-            args.distributed.selective_activation_checkpointing is False
-        ), "Probing not supported with selective activation checkpointing"
+        assert args.distributed.tp_size == 1, (
+            "Probing not supported with tensor parallelism"
+        )
+        assert args.distributed.selective_activation_checkpointing is False, (
+            "Probing not supported with selective activation checkpointing"
+        )
 
 
 preemption_flag = dict(flag=False)
@@ -389,9 +410,9 @@ def train(args: TrainArgs):
                 # Here we do a fake forward and backward pass on a smaller
                 # batch size to avoid OOM
                 # This assumes the model has no stateful layers (batch norm..)
-                assert (
-                    next(probe_mod.parameters()).grad is None
-                ), "Can't probe model if grads are not reset"
+                assert next(probe_mod.parameters()).grad is None, (
+                    "Can't probe model if grads are not reset"
+                )
 
                 with probe:
                     probe.metadata = {
@@ -411,9 +432,9 @@ def train(args: TrainArgs):
                     # We zero grads to cancel this fake step
                     optimizer.zero_grad()
 
-                assert (
-                    next(probe_mod.parameters()).grad is None
-                ), "Probe model shouldn't have grads at this point"
+                assert next(probe_mod.parameters()).grad is None, (
+                    "Probe model shouldn't have grads at this point"
+                )
 
             loss = model(
                 input_ids,
@@ -528,7 +549,7 @@ def train(args: TrainArgs):
                 logger.info(
                     f"step: {train_state.step}"
                     f"  acc: {train_state.acc_step}"
-                    f"  loss: {round(loss.item(),4):>7}"
+                    f"  loss: {round(loss.item(), 4):>7}"
                     f"  grad: {grad_norm:.2e}"
                     f"  flops: {FLOPS:.2e}"
                     f"  wps: {wps:.2e}"
@@ -536,7 +557,7 @@ def train(args: TrainArgs):
                     f"  data: {data_load_time:>5}"
                     f"  lr: {curr_lr:.2e}"
                     f"  mem: {gpu_mem_stats.max_active_pct:.0f}%"
-                    f"  pow: {gpu_mem_stats.power_draw/1000} W"
+                    f"  pow: {gpu_mem_stats.power_draw / 1000} W"
                 )
 
             saved = False

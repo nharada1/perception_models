@@ -5,8 +5,8 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 
-from core.utils import get_init_fn
-from core.vision_projector.base import BaseProjector
+from meta_perception_models.utils import get_init_fn
+from meta_perception_models.vision_projector.base import BaseProjector
 
 
 class AdaptiveAvgPooling(nn.Module):

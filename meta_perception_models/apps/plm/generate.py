@@ -19,12 +19,17 @@ from tqdm import tqdm
 
 from apps.plm.tokenizer import PLMTokenizer, Tokenizer, build_tokenizer
 from apps.plm.transformer import LMTransformer, LMTransformerArgs
-from core.args import dataclass_from_dict
-from core.checkpoint import load_consolidated_checkpoint
-from core.transformer import (Attention, causal_mask, generate_doc_mask_mod,
-                              lengths_to_local_ids, lengths_to_start_ids)
-from core.transforms.image_transform import get_image_transform
-from core.transforms.video_transform import get_video_transform
+from meta_perception_models.args import dataclass_from_dict
+from meta_perception_models.checkpoint import load_consolidated_checkpoint
+from meta_perception_models.transformer import (
+    Attention,
+    causal_mask,
+    generate_doc_mask_mod,
+    lengths_to_local_ids,
+    lengths_to_start_ids,
+)
+from meta_perception_models.transforms.image_transform import get_image_transform
+from meta_perception_models.transforms.video_transform import get_video_transform
 
 
 def sample_top_p(probs: torch.Tensor, p: float) -> torch.Tensor:
@@ -438,7 +443,6 @@ class PackedCausalTransformerGenerator:
 
             current_token = start_token
             for i in range(1, self.max_gen_len):
-
                 next_logits = self.generate_next_token(current_token)
                 next_token = sample_tokens(
                     next_logits.clone(), self.temperature, self.top_p, self.top_k
@@ -572,7 +576,7 @@ def main(args):
         tokens_per_second = total_tokens / (end_time - start_time)
 
         print("==============================================")
-        print(f"\nPrompt {i+1}: {prompts[i][0]}")
+        print(f"\nPrompt {i + 1}: {prompts[i][0]}")
         print(f"Generated Text: {gen}")
         print(f"Tokens per second: {tokens_per_second:.2f}")
         print("==============================================")

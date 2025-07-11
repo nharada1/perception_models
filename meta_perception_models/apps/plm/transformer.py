@@ -18,16 +18,18 @@ from torch.distributed.tensor.parallel import (
 from torch.nn.attention.flex_attention import BlockMask, create_block_mask
 from xformers.ops import AttentionBias, fmha
 
-from core.transformer import (
+from meta_perception_models.transformer import (
     BaseTransformer,
     BaseTransformerArgs,
     RMSNorm,
     TiedLinear,
     cross_entropy,
 )
-from core.utils import InitArgs
-from core.vision_encoder.pe import VisionTransformer as PE_VisionTransformer
-from core.vision_projector.mlp import MLPProjector
+from meta_perception_models.utils import InitArgs
+from meta_perception_models.vision_encoder.pe import (
+    VisionTransformer as PE_VisionTransformer,
+)
+from meta_perception_models.vision_projector.mlp import MLPProjector
 
 logger = logging.getLogger(__name__)
 
@@ -68,7 +70,6 @@ def causal_mask(b, h, q_idx, kv_idx):
 
 @dataclass
 class LMTransformerArgs(BaseTransformerArgs):
-
     seed: int = 42
 
     vocab_size: int = -1
@@ -119,7 +120,9 @@ class LMTransformer(BaseTransformer):
             logger.info(
                 f"Initializing PE_VisionTransformer with args: {args.vision_model}"
             )
-            self.vision_model = PE_VisionTransformer(**args.vision_model, output_dim=None)
+            self.vision_model = PE_VisionTransformer(
+                **args.vision_model, output_dim=None
+            )
             self.vision_projector = MLPProjector(args)
 
         self.freeze_vision_model = args.freeze_vision_model

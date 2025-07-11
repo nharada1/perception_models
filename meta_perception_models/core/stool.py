@@ -9,7 +9,7 @@ from typing import Any, Dict
 
 from omegaconf import OmegaConf
 
-from core.args import dataclass_from_dict
+from meta_perception_models.args import dataclass_from_dict
 
 
 @dataclass
@@ -71,7 +71,7 @@ srun {log_output} -n {tasks} -N {nodes_per_run} python -u -m {script} config=$DU
 
 
 def copy_dir(input_dir: str, output_dir: str) -> None:
-    print(f"Copying : {input_dir}\n" f"to      : {output_dir} ...")
+    print(f"Copying : {input_dir}\nto      : {output_dir} ...")
     assert os.path.isdir(input_dir), f"{input_dir} is not a directory"
     assert os.path.isdir(output_dir), f"{output_dir} is not a directory"
     rsync_cmd = (
@@ -99,9 +99,7 @@ def retrieve_max_time_per_partition() -> Dict[str, int]:
         else:
             max_times[info["partition"]["name"]] = info["partition"]["maximums"][
                 "time"
-            ][
-                "number"
-            ]  # in minutes
+            ]["number"]  # in minutes
 
     return max_times
 

@@ -5,21 +5,19 @@ from dataclasses import dataclass
 from functools import partial
 from typing import Any, Dict, Optional
 
-from core.data.data_collators import MllmPaddingCollator
-from core.data.data_mixer import DatasetMixer, PersistentDataLoader
-from core.data.preprocessor import VisionPreprocessor
-from core.transforms.image_transform import get_image_transform
-from core.transforms.region_transform import get_region_transform
-from core.transforms.video_transform import get_video_transform
+from meta_perception_models.data.data_collators import MllmPaddingCollator
+from meta_perception_models.data.data_mixer import DatasetMixer, PersistentDataLoader
+from meta_perception_models.data.preprocessor import VisionPreprocessor
+from meta_perception_models.transforms.image_transform import get_image_transform
+from meta_perception_models.transforms.region_transform import get_region_transform
+from meta_perception_models.transforms.video_transform import get_video_transform
 
 logger = logging.getLogger(__name__)
 
 
 @dataclass
 class DataloadArgs:
-    datamix: str = (
-        "dummy_image:1,dummy_multi_image:1,dummy_image_region:1,dummy_video:1,dummy_text:1,dummy_stc_RDCap:1,dummy_stc_RCap:1,dummy_stc_RTLoc:1"
-    )
+    datamix: str = "dummy_image:1,dummy_multi_image:1,dummy_image_region:1,dummy_video:1,dummy_text:1,dummy_stc_RDCap:1,dummy_stc_RCap:1,dummy_stc_RTLoc:1"
     batch_size: int = 2
     seed: int = 42
     image_res: Optional[int] = None

@@ -15,7 +15,7 @@ from typing import Any, Dict, Iterator, Optional, TypedDict
 
 import numpy as np
 
-from core.tokenizer import ChatFormat, TokenizerArgs, build_tokenizer
+from meta_perception_models.tokenizer import ChatFormat, TokenizerArgs, build_tokenizer
 
 logger = logging.getLogger()
 
@@ -232,9 +232,9 @@ def tokenize(
         chat_format = ChatFormat(tokenizer)
     for content, state in iterator:
         if "conversations" in content:
-            assert (
-                tokenizer_type == "llama3"
-            ), "conversations should be tokenized with llama3 tokenizer"
+            assert tokenizer_type == "llama3", (
+                "conversations should be tokenized with llama3 tokenizer"
+            )
             dialog = []
             first_user_media = None
             if "image" in content:
@@ -255,18 +255,21 @@ def tokenize(
                     dialog.append({"role": role, "content": text})
             tokens = chat_format.encode_dialog_prompt(dialog)
         else:
-            assert (
-                "text" in content or "content" in content
-            ), "JSON line must contain either text or content key"
+            assert "text" in content or "content" in content, (
+                "JSON line must contain either text or content key"
+            )
             content_key = "text" if ("text" in content) else "content"
             text = content[content_key]
             tokens = tokenizer.encode(text, add_bos=add_bos, add_eos=add_eos)
-        yield tokens, TokenizerState(
-            it_state=state,
-            add_bos=add_bos,
-            add_eos=add_eos,
-            name=tokenizer_type,
-            path=tokenizer_path,
+        yield (
+            tokens,
+            TokenizerState(
+                it_state=state,
+                add_bos=add_bos,
+                add_eos=add_eos,
+                name=tokenizer_type,
+                path=tokenizer_path,
+            ),
         )
 
 
@@ -379,9 +382,9 @@ def pack_tokens(
         end_token = start_token
         sample_is_read = False
         while not sample_is_read:
-            assert start_token < len(
-                tokens
-            ), f"Start token index {start_token} bigger than sequence {len(tokens)}"
+            assert start_token < len(tokens), (
+                f"Start token index {start_token} bigger than sequence {len(tokens)}"
+            )
             free_space = buffer_size - len(buffer)
             seq_len = min(free_space, len(tokens) - start_token)
             end_token = start_token + seq_len
@@ -455,9 +458,9 @@ def batch_and_shuffle_prefetched_sequences(
 
     # Rewind the iterator to the correct position by skipping seq_idx sequences to roll the buffer accordingly
     seq_idx = state["seq_idx"]
-    assert (
-        seq_idx >= 0 and seq_idx < prefetch_size
-    ), "Prefetch state seq_idx should be in 0 <= seq_idx < prefetch_size."
+    assert seq_idx >= 0 and seq_idx < prefetch_size, (
+        "Prefetch state seq_idx should be in 0 <= seq_idx < prefetch_size."
+    )
 
     _rng_state = state["rng_state"]
     _it_state = state["it_state"]
@@ -507,9 +510,9 @@ def find_and_sanitize_chunks(
         n_discard = n_chunks - world_size
         dataset_chunks = dataset_chunks[:world_size]
     else:
-        assert (
-            world_size % n_chunks == 0
-        ), "World size should be a multiple of number of chunks"
+        assert world_size % n_chunks == 0, (
+            "World size should be a multiple of number of chunks"
+        )
 
     assert n_chunks > 0, f"No valid chunks in {dataset_path}"
 

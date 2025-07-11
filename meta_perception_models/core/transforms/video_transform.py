@@ -9,7 +9,7 @@ from PIL import Image
 from torchcodec.decoders import VideoDecoder
 from torchvision.utils import draw_bounding_boxes
 
-from core.transforms.image_transform import ImageTransform
+from meta_perception_models.transforms.image_transform import ImageTransform
 
 logger = getLogger()
 
@@ -18,7 +18,6 @@ def get_video_transform(
     image_res: int = 224,
     normalize_img: bool = True,
 ) -> Tuple[Callable, int]:
-
     transforms = VideoTransform(
         size=image_res,
         normalize_img=normalize_img,

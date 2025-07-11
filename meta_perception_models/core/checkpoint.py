@@ -17,11 +17,13 @@ from omegaconf import OmegaConf
 from torch.distributed._tensor import DeviceMesh
 from torch.distributed.checkpoint import FileSystemReader
 from torch.distributed.checkpoint.format_utils import dcp_to_torch_save
-from torch.distributed.checkpoint.state_dict import (get_model_state_dict,
-                                                     get_state_dict,
-                                                     set_state_dict)
+from torch.distributed.checkpoint.state_dict import (
+    get_model_state_dict,
+    get_state_dict,
+    set_state_dict,
+)
 
-from core.distributed import get_is_master
+from meta_perception_models.distributed import get_is_master
 
 logger = logging.getLogger("CHECKPOINT")
 
@@ -112,9 +114,9 @@ class CheckpointManager:
         self.init_ckpt_path = args.init_ckpt_path
         self.continue_training_from_init = args.continue_training_from_init
 
-        assert os.path.exists(
-            self.path
-        ), f"Path {self.path} does not exist and needs to be created before using CheckpointManager (use instantiate_and_make_dir)"
+        assert os.path.exists(self.path), (
+            f"Path {self.path} does not exist and needs to be created before using CheckpointManager (use instantiate_and_make_dir)"
+        )
 
         self.existing_saves = self.get_existing_saves()
 
@@ -222,7 +224,6 @@ class CheckpointManager:
         config,
         device_mesh: Optional[DeviceMesh] = None,
     ) -> bool:
-
         # When creating directory check if only rank0 or is there other solution
         path = Path(self.path)
         curr_save_dir = self._create_folder(path, FOLDER_NAME.format(train_state.step))

@@ -14,7 +14,7 @@ import torch.distributed as dist
 import torch.nn as nn
 import wandb
 
-from core.distributed import get_is_master
+from meta_perception_models.distributed import get_is_master
 
 Scalar = Union[int, float]
 
@@ -216,7 +216,7 @@ def upload_train_to_wandb(
                 m = json.loads(l)
                 wandb.log(
                     {
-                        f"evals/{name.replace('/','.')}": value
+                        f"evals/{name.replace('/', '.')}": value
                         for name, value in m.items()
                         if "/" in name
                     },

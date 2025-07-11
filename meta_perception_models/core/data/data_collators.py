@@ -7,7 +7,7 @@ from typing import Any, Dict, List, Optional
 
 import torch
 
-from core.distributed import get_is_master
+from meta_perception_models.distributed import get_is_master
 
 logger = getLogger()
 
@@ -44,7 +44,6 @@ class BaseCollator:
 
 
 class MllmPaddingCollator(BaseCollator):
-
     def prettify_decoded_text(self, texts: List[str]) -> List[str]:
         """
         Prettify the decoded text by replacing consecutive <|image|> tokens with a shortened form using regex.
