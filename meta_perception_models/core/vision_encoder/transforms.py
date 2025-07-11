@@ -1,6 +1,9 @@
 import torchvision.transforms as T
 
-from meta_perception_models.core.vision_encoder.tokenizer import SimpleTokenizer
+from meta_perception_models.core.vision_encoder.tokenizer import (
+    SimpleTokenizer,
+    default_bpe,
+)
 
 
 def get_image_transform(
@@ -27,5 +30,5 @@ def get_image_transform(
     )
 
 
-def get_text_tokenizer(context_length: int):
-    return SimpleTokenizer(context_length=context_length)
+def get_text_tokenizer(context_length: int, bpe_path: str = default_bpe()):
+    return SimpleTokenizer(context_length=context_length, bpe_path=bpe_path)
