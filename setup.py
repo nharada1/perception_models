@@ -16,6 +16,6 @@ setup(
         "License :: Other/Proprietary License",
     ],
     license="FAIR Noncommercial Research License",
-    python_requires=">=3.11",
+    python_requires=">=3.10",
     include_package_data=True,
 )
