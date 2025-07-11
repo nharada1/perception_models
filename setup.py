@@ -4,7 +4,7 @@ with open("requirements.txt") as f:
     required = f.read().splitlines()
 
 setup(
-    name="perception_models",
+    name="meta_perception_models",
     version="1.0.0",
     author="Meta AI Research, FAIR",
     description="Occhi package.",
